@@ -1,4 +1,5 @@
 # Eel Selection Game
+# This code is cloned from https://github.com/Y-Lab-SKKU/Competency.git
 
 A MATLAB-based behavioral experiment for studying decision-making and learning in dynamic environments. The experiment presents participants with a game where they must choose between two types of eels (Blue and Purple) with different characteristics that affect gameplay and rewards.
 
