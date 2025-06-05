@@ -24,7 +24,7 @@ function draw_eel(eel_pos, eel_color, obj_size, visual_opt, eel_pot, game_opt)
                         eel_pos(1)+eel_pot, eel_pos(2)+eel_pot];
 
             % Draw the circular potential field
-            Screen('FillOval', visual_opt.winPtr, final_color, destRect);
+            %Screen('FillOval', visual_opt.winPtr, final_color, destRect);
         end
     end
 
@@ -39,7 +39,7 @@ function draw_eel(eel_pos, eel_color, obj_size, visual_opt, eel_pot, game_opt)
     ];
 
     % Draw the eel
-    Screen('FillPoly', visual_opt.winPtr, eel_color, eel_vertices);
+    %Screen('FillPoly', visual_opt.winPtr, eel_color, eel_vertices);
 
     %-----------------------------------------------------
     % 3) Visualize the larger radius R if enabled.
@@ -50,6 +50,6 @@ function draw_eel(eel_pos, eel_color, obj_size, visual_opt, eel_pot, game_opt)
                        eel_pos(1) + game_opt.R, eel_pos(2) + game_opt.R];
 
         % Draw the outline circle
-        Screen('FrameOval', visual_opt.winPtr, outline_color, radius_rect, 3);
+        %Screen('FrameOval', visual_opt.winPtr, outline_color, radius_rect, 3);
     end
 end

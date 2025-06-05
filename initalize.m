@@ -31,7 +31,7 @@ function [visual_opt, device_opt, game_opt, eye_opt, save_directory] = initalize
         disp('Running on Windows');
         username = getenv('USERNAME');
         % Prompt the user for their name and save it in 'monkey'
-        monkey = input('Enter username: ', 's');
+        monkey = 'Game1';
     else
         disp('Running on another OS');
         username = "OTHER";

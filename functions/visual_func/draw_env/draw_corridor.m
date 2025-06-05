@@ -31,11 +31,11 @@ function draw_corridor(visual_opt)
         end
 
         % Draw upper corridor
-        Screen('FillRect', visual_opt.winPtr, visual_opt.corridor_color, ...
-               [x_upper, y_upper, x_upper + width_upper, y_upper + height_upper]);
+        %Screen('FillRect', visual_opt.winPtr, visual_opt.corridor_color, ...
+               %[x_upper, y_upper, x_upper + width_upper, y_upper + height_upper]);
 
         % Draw lower corridor
-        Screen('FillRect', visual_opt.winPtr, visual_opt.corridor_color, ...
-               [x_lower, y_lower, x_lower + width_lower, y_lower + height_lower]);
+        %Screen('FillRect', visual_opt.winPtr, visual_opt.corridor_color, ...
+               %[x_lower, y_lower, x_lower + width_lower, y_lower + height_lower]);
           
 end

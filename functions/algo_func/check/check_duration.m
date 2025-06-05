@@ -7,7 +7,7 @@ function check_duration(start_t, duration, min_t_scale)
 %   duration   - Target duration in seconds (typically 1/refresh_rate)
 %   min_t_scale - How frequent we check time.
 
-    while GetSecs()-start_t < duration
+    while tic-start_t < duration
         WaitSecs(min_t_scale);
     end
 

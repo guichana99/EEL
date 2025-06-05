@@ -1,7 +1,7 @@
 function [data, all_trials] = display_score_screen_human(data, visual_opt, game_opt, device_opt, all_trials)
     % Start timing for the score phase
     phase_str = 'score';
-    data.(phase_str).phase_start = GetSecs();
+    data.(phase_str).phase_start = tic;
 
     % Calculate unused pursuit time
     time = game_opt.pursuit_time - data.PURSUIT.phase_duration;

@@ -43,7 +43,7 @@ function curr_trial_data = phase_report(curr_trial_data, visual_opt, game_opt, e
     end
 
     % Record phase start time
-    curr_trial_data.(phase_str).phase_start = GetSecs();
+    curr_trial_data.(phase_str).phase_start = tic;
 
     % Get eel information
     [~, ~, ~, ~, ~, ~, left_eel_color, right_eel_color, ~, ~] = ...
@@ -178,19 +178,19 @@ function curr_trial_data = phase_report(curr_trial_data, visual_opt, game_opt, e
     box_padding = 10;  % Padding between elements
     
     % Save current text size and set new sizes
-    oldTextSize = Screen('TextSize', visual_opt.winPtr);
+    %oldTextSize = Screen('TextSize', visual_opt.winPtr);
     
     % Cell spacing for the grid-like layout
     cell_spacing = 30;  % Space between cells in the grid
 
     while choice_onset
-        loop_start_t = GetSecs();
+        loop_start_t = tic;
 
         % Draw the eel cue circle in the center
         cue_radius = 50;
         cue_rect = [center_x - cue_radius, center_y - cue_radius, ...
                    center_x + cue_radius, center_y + cue_radius];
-        Screen('FillOval', visual_opt.winPtr, eel_color, cue_rect);
+        %Screen('FillOval', visual_opt.winPtr, eel_color, cue_rect);
 
         % Draw the four state options around the circle
         for i = 1:4
@@ -199,7 +199,7 @@ function curr_trial_data = phase_report(curr_trial_data, visual_opt, game_opt, e
                        positions(i,1) + box_size/2, positions(i,2) + box_size/2];
             
             % Draw box with eel color border
-            Screen('FrameRect', visual_opt.winPtr, eel_color, box_rect, 2);
+            %Screen('FrameRect', visual_opt.winPtr, eel_color, box_rect, 2);
             
             % Get the state for this position
             state = states{corner_assignments(i)};
@@ -223,16 +223,16 @@ function curr_trial_data = phase_report(curr_trial_data, visual_opt, game_opt, e
             s_value_y = grid_center_y + cell_spacing/2;
             
             % Set small font size for labels
-            Screen('TextSize', visual_opt.winPtr, 20);
+            %Screen('TextSize', visual_opt.winPtr, 20);
             
             % Draw "Prob" label (for reliability)
-            DrawFormattedText(visual_opt.winPtr, 'Prob', p_label_x-7, p_label_y, LABEL_COLOR, [], [], [], [], [], []);
+            %DrawFormattedText(visual_opt.winPtr, 'Prob', p_label_x-7, p_label_y, LABEL_COLOR, [], [], [], [], [], []);
             
             % Draw "Speed" label (for competency)
-            DrawFormattedText(visual_opt.winPtr, 'Speed', s_label_x-7, s_label_y, LABEL_COLOR, [], [], [], [], [], []);
+            %DrawFormattedText(visual_opt.winPtr, 'Speed', s_label_x-7, s_label_y, LABEL_COLOR, [], [], [], [], [], []);
             
             % Set larger font size for values
-            Screen('TextSize', visual_opt.winPtr, 30);
+            %Screen('TextSize', visual_opt.winPtr, 30);
             
             % Draw reliability value
             if reliability == 1
@@ -244,7 +244,7 @@ function curr_trial_data = phase_report(curr_trial_data, visual_opt, game_opt, e
                 rel_letter = 'L';
                 rel_color = LOW_VALUE_COLOR;
             end
-            DrawFormattedText(visual_opt.winPtr, rel_letter, p_value_x-10, p_value_y, rel_color, [], [], [], [], [], []);
+            %DrawFormattedText(visual_opt.winPtr, rel_letter, p_value_x-10, p_value_y, rel_color, [], [], [], [], [], []);
             
             % Draw competency value
             if competency == 1
@@ -256,7 +256,7 @@ function curr_trial_data = phase_report(curr_trial_data, visual_opt, game_opt, e
                 comp_letter = 'S';
                 comp_color = LOW_VALUE_COLOR;
             end
-            DrawFormattedText(visual_opt.winPtr, comp_letter, s_value_x-10, s_value_y, comp_color, [], [], [], [], [], []);
+            %DrawFormattedText(visual_opt.winPtr, comp_letter, s_value_x-10, s_value_y, comp_color, [], [], [], [], [], []);
 
             % Check for collision between avatar and this box
             if choice_onset  % Only check if we haven't made a choice yet
@@ -288,7 +288,7 @@ function curr_trial_data = phase_report(curr_trial_data, visual_opt, game_opt, e
         draw_avatar(avtr_pos, visual_opt.choice_color_avtr, game_opt.avatar_sz, visual_opt.winPtr);
 
         % Flip screen
-        Screen('Flip', visual_opt.winPtr);
+        %Screen('Flip', visual_opt.winPtr);
 
         % Sample and store eye data
         eye_data = sample_eyes(eye_opt);
@@ -309,20 +309,20 @@ function curr_trial_data = phase_report(curr_trial_data, visual_opt, game_opt, e
 
         % Update step and check time limit
         t_step = t_step + 1;
-        if GetSecs() - curr_trial_data.(phase_str).phase_start > game_opt.report_time
+        if tic - curr_trial_data.(phase_str).phase_start > game_opt.report_time
             choice_onset = false;
         end
     end
 
     % Restore the original text size
-    Screen('TextSize', visual_opt.winPtr, oldTextSize);
+    %Screen('TextSize', visual_opt.winPtr, oldTextSize);
 
     % Update final data
     curr_trial_data = concatenate_pos_data(curr_trial_data, all_avatar_pos(1:t_step-1, :), ...
         -1, -1, all_eye_data(1:t_step-1), all_joy_vec(1:t_step-1, :), phase_str);
 
     % Save end time and duration
-    curr_trial_data.(phase_str).phase_end = GetSecs();
+    curr_trial_data.(phase_str).phase_end = tic;
     curr_trial_data.(phase_str).phase_duration = ...
         curr_trial_data.(phase_str).phase_end - curr_trial_data.(phase_str).phase_start;
 end 
