@@ -56,6 +56,75 @@ while trial_onset && prev_trial_idx < total_trials
     
     % CHOICE phase - replace joystick input with your agent's input or keyboard logic
     curr_trial_data = phase_choice(curr_trial_data, visual_opt, game_opt, eye_opt, 'CHOICE', device_opt);
+<<<<<<< Updated upstream
+=======
+
+    % --- NEW BLOCK: Compute number of fish caught and apply reliability ---
+    
+    % Extract chosen side and competencies/reliabilities
+    choice = curr_trial_data.CHOICE.choice;
+
+    % Default to NaN in case info missing
+    chosen_comp = NaN;
+    chosen_reliab = NaN;
+    
+    if isfield(curr_trial_data, 'COMPETENCY')
+        if choice == 1
+            chosen_comp = curr_trial_data.COMPETENCY.left;
+        elseif choice == 2
+            chosen_comp = curr_trial_data.COMPETENCY.right;
+        end
+    end
+    
+    if isfield(curr_trial_data, 'RELIABILITY')
+        if choice == 1
+            chosen_reliab = curr_trial_data.RELIABILITY.left;
+        elseif choice == 2
+            chosen_reliab = curr_trial_data.RELIABILITY.right;
+        end
+    end
+
+    % Generate discrete probability distribution for fish number 0 to 3
+    prob_fish = [0.25 0.25 0.25 0.25];  % default equal probability
+    
+    if ~isnan(chosen_comp)
+        weights = exp(chosen_comp * (0:3)); % higher competency → higher chance more fish
+        prob_fish = weights / sum(weights);
+    end
+
+    % Sample number of fish caught (0 to 3)
+    num_fish = randsample(0:3, 1, true, prob_fish);
+
+    % Apply reliability scaling
+    if ~isnan(chosen_reliab)
+        scaled_fish = num_fish * chosen_reliab;
+    else
+        scaled_fish = NaN;
+    end
+
+    % Save to trial data
+    curr_trial_data.REWARD_INFO.num_fish_raw = num_fish;
+    curr_trial_data.REWARD_INFO.reliability = chosen_reliab;
+    curr_trial_data.REWARD_INFO.scaled_fish = scaled_fish;
+
+    % --- Save competency info into curr_trial_data ---
+    if isfield(curr_trial_data, 'eels')
+        left_competency = NaN;
+        right_competency = NaN;
+        for i = 1:length(curr_trial_data.eels)
+            if curr_trial_data.eels(i).initial_side == 1 && isfield(curr_trial_data.eels(i), 'competency')
+                left_competency = curr_trial_data.eels(i).competency;
+            elseif curr_trial_data.eels(i).initial_side == 2 && isfield(curr_trial_data.eels(i), 'competency')
+                right_competency = curr_trial_data.eels(i).competency;
+            end
+        end
+        curr_trial_data.COMPETENCY.left = left_competency;
+        curr_trial_data.COMPETENCY.right = right_competency;
+    else
+        curr_trial_data.COMPETENCY.left = NaN;
+        curr_trial_data.COMPETENCY.right = NaN;
+    end
+>>>>>>> Stashed changes
     
     % Store current choice for next trial
     if isfield(curr_trial_data, 'CHOICE') && isfield(curr_trial_data.CHOICE, 'choice')
@@ -75,6 +144,7 @@ while trial_onset && prev_trial_idx < total_trials
         prev_eel_color = [];
     end
     
+<<<<<<< Updated upstream
     % --- ADD: Save competency info into curr_trial_data ---
     if isfield(curr_trial_data, 'eels')
         left_competency = NaN;
@@ -101,6 +171,17 @@ while trial_onset && prev_trial_idx < total_trials
             curr_trial_data.CHOICE.reward);
     else
         % Instead of gray screen, just print waiting message
+=======
+    if curr_trial_data.CHOICE.choice ~= -1
+        % Print reward and fish info
+        fprintf('Trial %d: Choice = %d, Raw Fish = %d, Scaled Fish = %.2f, Reward = %d\n', ...
+            curr_trial_data.trial_idx, ...
+            curr_trial_data.CHOICE.choice, ...
+            curr_trial_data.REWARD_INFO.num_fish_raw, ...
+            curr_trial_data.REWARD_INFO.scaled_fish, ...
+            curr_trial_data.CHOICE.reward);
+    else
+>>>>>>> Stashed changes
         fprintf('No choice made on trial %d\n', curr_trial_data.trial_idx);
     end
     

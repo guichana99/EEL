@@ -1,5 +1,9 @@
 % Specify the path to your trial file
+<<<<<<< Updated upstream
 trial_file = 'C:/Users/user/Documents/Python Scripts/EEL/Data/2025-06-05_Game1/trial_1.mat';
+=======
+trial_file = 'C:/Users/user/Documents/Python Scripts/EEL/premade_eels/trial_001.mat';
+>>>>>>> Stashed changes
 
 % List variables inside the file without loading
 fprintf('Contents of %s:\n', trial_file);
